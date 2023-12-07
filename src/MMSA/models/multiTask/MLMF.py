@@ -190,6 +190,8 @@ class MLMF(nn.Module):
         add_one = torch.ones(size=[batch_size, 1], requires_grad=False).type_as(audio_h).to(text_x.device)
         _audio_h = torch.cat((add_one, audio_h), dim=1)
         _video_h = torch.cat((add_one, video_h), dim=1)
+        print(add_one.shape)
+        print(text_h.shape)
         _text_h = torch.cat((add_one, text_h), dim=1)
         
         fusion_audio = torch.matmul(_audio_h, self.audio_factor)
