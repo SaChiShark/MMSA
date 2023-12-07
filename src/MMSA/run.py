@@ -284,7 +284,7 @@ def _run(args, num_workers=4, is_tune=False, from_sena=False):
 def MMSA_test(
     config: dict | str,
     weights_path: str,
-    feature_path: str, 
+    feature: dict, 
     # seeds: list = [], 
     gpu_id: int = 0, 
 ):
@@ -297,7 +297,7 @@ def MMSA_test(
         model_name: Name of MSA model.
         config: Config dict or path to config file. 
         weights_path: Pkl file path of saved model weights.
-        feature_path: Pkl file path of pre-extracted features.
+        feature_list: text text_bert audio vision 
         gpu_id: Specify which gpu to use. Use cpu if value < 0.
     """
     if type(config) == str or type(config) == Path:
@@ -315,8 +315,6 @@ def MMSA_test(
     else:
         device = torch.device(f'cuda:{gpu_id}')
     args['device'] = device
-    with open(feature_path, "rb") as f:
-        feature = pickle.load(f)
     args['feature_dims'] = [feature['text'].shape[1], feature['audio'].shape[1], feature['vision'].shape[1]]
     args['seq_lens'] = [feature['text'].shape[0], feature['audio'].shape[0], feature['vision'].shape[0]]
     model = AMIO(args)
