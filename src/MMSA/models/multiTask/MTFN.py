@@ -182,6 +182,8 @@ class MTFN(nn.Module):
         add_one = torch.ones(size=[batch_size, 1], requires_grad=False).type_as(audio_h).to(text_x.device)
         _audio_h = torch.cat((add_one, audio_h), dim=1)
         _video_h = torch.cat((add_one, video_h), dim=1)
+        if len(text_h.shape) == 1:
+            text_h = text_h.unsqueeze(0)
         _text_h = torch.cat((add_one, text_h), dim=1)
 
         # _audio_h has shape (batch_size, audio_in + 1), _video_h has shape (batch_size, _video_in + 1)
