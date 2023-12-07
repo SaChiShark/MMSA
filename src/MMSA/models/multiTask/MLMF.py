@@ -188,15 +188,14 @@ class MLMF(nn.Module):
         # basically swapping the order of summation and elementwise product
         # next we perform "tensor fusion", which is essentially appending 1s to the tensors and take Kronecker product
         add_one = torch.ones(size=[batch_size, 1], requires_grad=False).type_as(audio_h).to(text_x.device)
-        _audio_h = torch.cat((add_one, audio_h), dim=1)
         print(audio_h.shape)
         print(_audio_h.shape)
-        _video_h = torch.cat((add_one, video_h), dim=1)
+        _audio_h = torch.cat((add_one, audio_h), dim=1)
         print(video_h.shape)
         print(_video_h.shape)
-        _text_h = torch.cat((add_one, text_h), dim=1)
+        _video_h = torch.cat((add_one, video_h), dim=1)
         print(text_h.shape)
-        print(_text_h.shape)
+        _text_h = torch.cat((add_one, text_h), dim=1)
         
         fusion_audio = torch.matmul(_audio_h, self.audio_factor)
         fusion_video = torch.matmul(_video_h, self.video_factor)
